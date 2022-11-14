@@ -18,9 +18,9 @@ jobs:
         TARGETARCH=$(cat TARGETARCH)
     - name: 构建镜像并推送仓库
       run: |
-        @docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD registry.cn-beijing.aliyuncs.com
-        @docker build -f magnus/Dockerfile -t registry.cn-beijing.aliyuncs.com/xay/jms-magnus:${{ steps.get_version.outputs.VERSION }} .
-        @docker push registry.cn-beijing.aliyuncs.com/xay/jms-magnus:${{ steps.get_version.outputs.VERSION }}
+        docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD registry.cn-beijing.aliyuncs.com
+        docker build -f magnus/Dockerfile -t registry.cn-beijing.aliyuncs.com/xay/jms-magnus:${{ steps.get_version.outputs.VERSION }} .
+        docker push registry.cn-beijing.aliyuncs.com/xay/jms-magnus:${{ steps.get_version.outputs.VERSION }}
       env: 
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
