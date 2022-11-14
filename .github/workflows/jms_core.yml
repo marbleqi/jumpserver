@@ -1,0 +1,18 @@
+name: Core Image Buildx
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - id: get_version
+      name: 设置版本
+      run: |
+        VERSION=$(cat VERSION)
+        echo "当前版本标签 $VERSION"
+
