@@ -1,4 +1,4 @@
-name: Core Image Buildx
+name: 构建magnus镜像
 
 on:
   push:
@@ -9,10 +9,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: 拉取代码
+      uses: actions/checkout@v2
     - id: get_version
       name: 设置版本
       run: |
         VERSION=$(cat VERSION)
-        echo "当前版本标签 $VERSION"
-
+        TARGETARCH=$(cat TARGETARCH)
+    - name: 构建镜像并推送仓库
+      run: |
+        @docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD registry.cn-beijing.aliyuncs.com
+        @docker build -f magnus/Dockerfile -t registry.cn-beijing.aliyuncs.com/xay/jms-magnus:${{ steps.get_version.outputs.VERSION }} .
+        @docker push registry.cn-beijing.aliyuncs.com/xay/jms-magnus:${{ steps.get_version.outputs.VERSION }}
+      env: 
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
